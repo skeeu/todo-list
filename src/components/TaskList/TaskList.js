@@ -1,6 +1,8 @@
+import { useTodos } from '../../store/useTodos';
 import TaskItem from '../TaskItem/TaskItem';
 
-export default function TaskList({ tasks, setTasks }) {
+export default function TaskList() {
+    const tasks = useTodos((state) => state.tasks);
     return (
         <div
             style={{
@@ -15,8 +17,6 @@ export default function TaskList({ tasks, setTasks }) {
                     <TaskItem
                         key={task.id}
                         task={task}
-                        tasks={tasks}
-                        setTasks={setTasks}
                     />
                 );
             })}

@@ -3,10 +3,13 @@ import { AiOutlineEdit } from 'react-icons/ai';
 import { BsTrash } from 'react-icons/bs';
 import Form from '../Form/Form';
 import './TaskItem.css';
+import { useTodos } from '../../store/useTodos';
 
-export default function TaskItem({ task, tasks, setTasks }) {
+export default function TaskItem({ task }) {
     const [isEditing, setIsEditing] = useState(false);
-    const [inputValue, setInputValue] = useState('');
+    const [inputValue, setInputValue] = useState(task.value);
+    const editTask = useTodos((state) => state.editTask);
+    const deleteTask = useTodos((state) => state.deleteTask);
 
     const onChange = (e) => {
         setInputValue(e.target.value);
@@ -14,16 +17,11 @@ export default function TaskItem({ task, tasks, setTasks }) {
 
     const onEditTask = (id) => {
         setIsEditing(false);
-        const copy = [...tasks];
-        const index = copy.findIndex((task) => task.id === id);
-        copy[index] = { ...copy[index], value: inputValue };
-        setTasks(copy);
+        editTask(id, inputValue);
     };
 
     const onDelete = (id) => {
-        const copy = [...tasks];
-        const result = copy.filter((task) => task.id !== id);
-        setTasks(result);
+        deleteTask(id);
     };
 
     if (isEditing) {

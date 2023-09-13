@@ -1,18 +1,18 @@
 import { useState } from 'react';
 import Form from '../Form/Form';
 import './AddTask.css';
+import { useTodos } from '../../store/useTodos';
 
-export default function AddTask({ tasks, setTasks }) {
+export default function AddTask() {
+    const addTask = useTodos((state) => state.addTask);
     const [inputValue, setInputValue] = useState('');
 
     const onChange = (e) => {
         setInputValue(e.target.value);
     };
 
-    const addTask = () => {
-        const copy = [...tasks];
-        copy.push({ id: new Date(), value: inputValue });
-        setTasks(copy);
+    const add = () => {
+        addTask(inputValue);
         setInputValue('');
     };
     return (
@@ -22,7 +22,7 @@ export default function AddTask({ tasks, setTasks }) {
             onChange={onChange}
             buttonValue="Add task"
             placeholder="What is the task today?"
-            onClick={addTask}
+            onClick={add}
         />
     );
 }
